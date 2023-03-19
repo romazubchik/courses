@@ -4,10 +4,11 @@ import Spinner from 'react-bootstrap/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Card } from "react-bootstrap";
 import LessonPlayer from "./LessonPlayer";
-
+import Button from 'react-bootstrap/Button';
 import unlock  from '../images/unlock.jpg';
 import lock from '../images/lock.jpg';
 import { getDataFromApi } from "../fetch";
+import '../сss/CoursePage.css';
 
 
 const saveLessonToLocalStorage = (courseId, lessonOrderId) => {
@@ -70,27 +71,29 @@ function CoursePage() {
     let src = course.previewImageLink  + '/cover.webp';
 
     return (
-        <div>
+        <div className="coursePage">
+            <Button variant="primary" onClick={() => window.location.href="/"}>Back</Button>
             <h1>{course.title}</h1>
             <Card.Img variant="top" src={src} />
-            {selectedLesson && <>
-                <h3>{selectedLesson.title}</h3>
-                <LessonPlayer srcVideo={selectedLesson.link} lessonId={selectedLesson.id}/>
-            </>}
 
             <h3>Course details</h3>
-            <ListGroup>
+            <ListGroup className="ListGroup"> 
                 <ListGroup.Item>Description: {course.description}</ListGroup.Item>
                 <ListGroup.Item>Slug: {course.meta.slug}</ListGroup.Item>
             </ListGroup>
 
             <h3>List of skills</h3>
-            <ListGroup as="ol" numbered>{listSkills}</ListGroup>
+            <ListGroup className="ListGroup" as="ol" numbered>{listSkills}</ListGroup>
+
+            <div className="lessonPlayer">
+            {selectedLesson && <>
+                <h3>Lesson #{selectedLesson.order} {selectedLesson.title}</h3>
+                <LessonPlayer srcVideo={selectedLesson.link} lessonId={selectedLesson.id}/>
+            </>}
+            </div>
 
             <h3>List of lessons</h3>
-            <ListGroup as="ol" numbered>{listLessons}</ListGroup>
-
-            <p>launch Date: {course.launchDate}</p>
+            <ListGroup className="ListGroup" as="ol" numbered>{listLessons}</ListGroup>
 
         </div>
     )
